@@ -7,12 +7,14 @@ import serialize from "serialize-javascript"
 import App from '../shared/App'
 import routes from '../shared/routes'
 
+
 const app = express()
 
 app.use(cors())
 app.use(express.static("public"))
 
 app.get("*", (req, res, next) => {
+  const port = process.env.PORT || 5000
   const activeRoute = routes.find((route) => matchPath(req.url, route)) || {}
 
   const promise = activeRoute.fetchInitialData
@@ -45,7 +47,7 @@ app.get("*", (req, res, next) => {
   }).catch(next)
 })
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log(`Server is listening on port: 3000`)
 })
 
